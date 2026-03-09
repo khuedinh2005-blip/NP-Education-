@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
+import Schedule from './components/Schedule'
 import Students from './components/Students'
 import Attendance from './components/Attendance'
 import Learning from './components/Learning'
 import { studentAPI } from './api'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [currentView, setView] = useState('dashboard');
@@ -46,7 +49,9 @@ function App() {
     const renderContent = () => {
         switch (currentView) {
             case 'dashboard':
-                return <Dashboard />;
+                return <Dashboard setView={setView} />;
+            case 'schedule':
+                return <Schedule />;
             case 'students':
                 return (
                     <Students
@@ -65,11 +70,12 @@ function App() {
     };
 
     return (
-        <div className="app-container" style={{ flexDirection: 'row' }}>
+        <div className="app-container">
             <Sidebar currentView={currentView} setView={setView} />
-            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--background)' }}>
+            <main className="main-content">
                 {renderContent()}
             </main>
+            <ToastContainer position="bottom-right" autoClose={3000} />
         </div>
     )
 }

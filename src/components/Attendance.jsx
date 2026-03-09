@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, CheckCircle, XCircle, Clock, ChevronLeft, ChevronRight, GraduationCap } from 'lucide-react';
+import { Calendar, CheckCircle, XCircle, Clock, ChevronLeft, ChevronRight, GraduationCap, CheckSquare } from 'lucide-react';
 import { attendanceAPI } from '../api';
+import { toast } from 'react-toastify';
 
 const Attendance = ({ students }) => {
     const [selectedClass, setSelectedClass] = useState(null);
@@ -146,6 +147,18 @@ const Attendance = ({ students }) => {
                     </div>
                     <button onClick={() => changeDate(1)} style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}><ChevronRight size={20} /></button>
                 </div>
+
+                <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                        filteredStudents.forEach(s => handleStatusChange(s.id, 'present'));
+                        toast.success('Đã điểm danh CÓ MẶT cho cả lớp!');
+                    }}
+                    style={{ display: 'flex', gap: '8px' }}
+                >
+                    <CheckSquare size={18} />
+                    <span>Có mặt tất cả</span>
+                </button>
             </div>
 
             <div className="card">

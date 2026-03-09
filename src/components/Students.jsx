@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Trash2, Filter, GraduationCap, ChevronLeft, Users } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Students = ({ students, onAddStudent, onDeleteStudent }) => {
     // viewMode: 'classes' | 'list'
@@ -17,13 +18,31 @@ const Students = ({ students, onAddStudent, onDeleteStudent }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!newStudent.name || !newStudent.phone) return;
+
+        // Validation
+        if (!newStudent.name.trim()) {
+            toast.error('Vui lòng nhập tên học viên!');
+            return;
+        }
+
+        const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+        if (!newStudent.phone || !phoneRegex.test(newStudent.phone)) {
+            toast.error('Số điện thoại không hợp lệ (VN)');
+            return;
+        }
+
+        if (newStudent.age && (newStudent.age < 5 || newStudent.age > 100)) {
+            toast.warning('Tuổi học viên có vẻ không đúng?');
+        }
+
         // If adding from a specific class view, auto-fill grade
         const studentToAdd = {
             ...newStudent,
             grade: newStudent.grade || (selectedClass !== 'All' ? selectedClass : '')
         };
+
         onAddStudent(studentToAdd);
+        toast.success(`Đã thêm học viên: ${newStudent.name}`);
         setNewStudent({ name: '', age: '', grade: '', phone: '' });
         setIsAdding(false);
     };
@@ -173,7 +192,14 @@ const Students = ({ students, onAddStudent, onDeleteStudent }) => {
                                     <td style={{ padding: 'var(--space-md) var(--space-sm)' }}>{student.age}</td>
                                     <td style={{ padding: 'var(--space-md) var(--space-sm)', fontFamily: 'monospace' }}>{student.phone}</td>
                                     <td style={{ padding: 'var(--space-md) var(--space-sm)' }}>
-                                        <button onClick={() => onDeleteStudent(student.id)} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--accent)' }}>
+                                        <button
+                                            onClick={() => {
+                                                if (window.confirm('Xóa học viên ' + student.name + '?')) {
+                                                    onDeleteStudent(student.id);
+                                                    toast.info('Đã xóa học viên');
+                                                }
+                                            }}
+                                            style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--accent)' }}>
                                             <Trash2 size={18} />
                                         </button>
                                     </td>

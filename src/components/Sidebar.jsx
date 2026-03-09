@@ -1,67 +1,34 @@
 import React from 'react';
-import { LayoutDashboard, Users, CalendarCheck, BookOpen } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarCheck, BookOpen, Calendar } from 'lucide-react';
 
 const Sidebar = ({ currentView, setView }) => {
     const menuItems = [
         { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
+        { id: 'schedule', label: 'Lịch học', icon: Calendar },
         { id: 'students', label: 'Học viên', icon: Users },
         { id: 'attendance', label: 'Điểm danh', icon: CalendarCheck },
         { id: 'learning', label: 'Tài liệu học tập', icon: BookOpen },
     ];
 
     return (
-        <div style={{
-            width: '250px',
-            backgroundColor: 'var(--surface)',
-            borderRight: '1px solid var(--border)',
-            padding: 'var(--space-md)',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column'
-        }}>
-            <div style={{ padding: 'var(--space-md) var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
+        <aside className="sidebar">
+            <div className="sidebar-header">
                 <h2 style={{ color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                     <BookOpen className="w-8 h-8" />
                     <span>NP Education</span>
                 </h2>
             </div>
 
-            <nav style={{ flex: 1 }}>
-                <ul style={{ listStyle: 'none' }}>
+            <nav className="sidebar-nav">
+                <ul>
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = currentView === item.id;
                         return (
-                            <li key={item.id} style={{ marginBottom: 'var(--space-xs)' }}>
+                            <li key={item.id} className="nav-item">
                                 <button
                                     onClick={() => setView(item.id)}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 'var(--space-md)',
-                                        width: '100%',
-                                        padding: 'var(--space-md)',
-                                        border: 'none',
-                                        borderRadius: 'var(--radius-sm)',
-                                        background: isActive ? 'var(--primary-light)' : 'transparent',
-                                        color: isActive ? 'var(--primary)' : 'var(--text-muted)',
-                                        fontWeight: isActive ? '600' : '500',
-                                        cursor: 'pointer',
-                                        textAlign: 'left',
-                                        transition: 'all 0.2s'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        if (!isActive) {
-                                            e.currentTarget.style.background = 'var(--background)';
-                                            e.currentTarget.style.color = 'var(--text-main)';
-                                        }
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        if (!isActive) {
-                                            e.currentTarget.style.background = 'transparent';
-                                            e.currentTarget.style.color = 'var(--text-muted)';
-                                        }
-                                    }}
+                                    className={`nav-btn ${isActive ? 'active' : ''}`}
                                 >
                                     <Icon size={20} />
                                     <span>{item.label}</span>
@@ -72,10 +39,10 @@ const Sidebar = ({ currentView, setView }) => {
                 </ul>
             </nav>
 
-            <div style={{ padding: 'var(--space-md)', borderTop: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+            <div className="sidebar-footer">
                 <p>© 2026 NP Education</p>
             </div>
-        </div>
+        </aside>
     );
 };
 
