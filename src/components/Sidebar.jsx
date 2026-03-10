@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, Users, CalendarCheck, BookOpen, Calendar } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarCheck, BookOpen, Calendar, LogOut } from 'lucide-react';
 
-const Sidebar = ({ currentView, setView }) => {
+const Sidebar = ({ currentView, setView, onLogout }) => {
     const menuItems = [
         { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
         { id: 'schedule', label: 'Lịch học', icon: Calendar },
@@ -40,6 +40,17 @@ const Sidebar = ({ currentView, setView }) => {
             </nav>
 
             <div className="sidebar-footer">
+                {onLogout && (
+                    <button
+                        onClick={onLogout}
+                        className="nav-btn"
+                        style={{ width: '100%', marginBottom: '0.5rem', color: 'var(--accent)' }}
+                        title="Đăng xuất"
+                    >
+                        <LogOut size={20} />
+                        <span>Đăng xuất</span>
+                    </button>
+                )}
                 <p>© 2026 NP Education</p>
             </div>
         </aside>
