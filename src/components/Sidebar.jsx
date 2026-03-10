@@ -13,10 +13,15 @@ const Sidebar = ({ currentView, setView, onLogout }) => {
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
-                <h2 style={{ color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                    <BookOpen className="w-8 h-8" />
-                    <span>NP Education</span>
-                </h2>
+                <div className="sidebar-logo-wrapper">
+                    <img
+                        src="/logo.png"
+                        alt="NP Education Logo"
+                        className="sidebar-logo"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                    <span className="sidebar-logo-text">NP Education</span>
+                </div>
             </div>
 
             <nav className="sidebar-nav">
